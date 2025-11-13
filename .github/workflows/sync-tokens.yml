@@ -1,0 +1,53 @@
+name: Sync Design Tokens
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'tokens/**'
+      - '.github/workflows/sync-tokens.yml'
+  workflow_dispatch:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  sync-tokens:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Transform tokens
+        run: npm run transform
+        env:
+          NODE_ENV: production
+
+      - name: Commit transformed files
+        if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add output/ || true
+          git diff --staged --quiet || git commit -m "chore: update transformed tokens [skip ci]"
+          git push || true
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Token Sync Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Tokens transformed successfully" >> $GITHUB_STEP_SUMMARY
+          echo "- 📁 Output files generated in \`output/\` directory" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔄 Workflow triggered by: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+

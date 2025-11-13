@@ -1,0 +1,26 @@
+{
+  "name": "design-tokens-sync",
+  "version": "1.0.0",
+  "description": "POC for syncing Figma Tokens Studio design tokens to GitHub and transforming them to JSON",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "transform": "node transformers/index.js",
+    "test": "node scripts/test-transformer.js"
+  },
+  "keywords": [
+    "design-tokens",
+    "figma",
+    "tokens-studio",
+    "github"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "style-dictionary": "^3.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0"
+  }
+}
+
