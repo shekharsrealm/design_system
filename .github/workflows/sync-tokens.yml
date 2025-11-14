@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -34,8 +36,20 @@ jobs:
             npm install
           fi
 
+      - name: Verify latest commit
+        run: |
+          echo "📌 Current commit: ${{ github.sha }}"
+          echo "📌 Head commit: $(git rev-parse HEAD)"
+          echo "📌 Latest tokens commit:"
+          git log -1 --oneline tokens/tokens.json || echo "No tokens.json in history"
+          echo ""
+          echo "📝 Current tokens file content:"
+          cat tokens/tokens.json || echo "No tokens.json found"
+          
       - name: Transform tokens
-        run: npm run transform
+        run: |
+          echo "🔄 Transforming tokens..."
+          npm run transform
         env:
           NODE_ENV: production
 

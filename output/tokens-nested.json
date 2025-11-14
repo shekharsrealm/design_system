@@ -2,8 +2,8 @@
   "global": {
     "primary": "#749eee",
     "secondary": "#66115f",
-    "heading": "30",
-    "subheading": "15",
+    "heading": "35",
+    "subheading": "20",
     "text": "12"
   },
   "$themes": [],
