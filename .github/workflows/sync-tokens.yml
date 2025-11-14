@@ -20,7 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.head_commit.id || github.sha }}
+          ref: ${{ github.ref }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -73,12 +73,16 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          
+          # Ensure we're on the branch, not detached HEAD
+          git checkout -B ${{ github.ref_name }} || git checkout ${{ github.ref_name }}
+          
           git add output/ || true
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
             git commit -m "chore: update transformed tokens [skip ci]"
-            git push
+            git push origin ${{ github.ref_name }}
           fi
 
       - name: Summary
