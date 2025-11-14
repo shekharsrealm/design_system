@@ -20,6 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.head_commit.id || github.sha }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -37,15 +38,29 @@ jobs:
             npm install
           fi
 
-      - name: Verify latest commit
+      - name: Verify latest commit and tokens
         run: |
-          echo "📌 Current commit: ${{ github.sha }}"
-          echo "📌 Head commit: $(git rev-parse HEAD)"
-          echo "📌 Latest tokens commit:"
-          git log -1 --oneline tokens/tokens.json || echo "No tokens.json in history"
+          echo "📌 Workflow triggered by commit: ${{ github.sha }}"
+          echo "📌 Event commit (if push): ${{ github.event.head_commit.id }}"
+          echo "📌 Currently checked out commit: $(git rev-parse HEAD)"
           echo ""
-          echo "📝 Current tokens file content:"
-          cat tokens/tokens.json || echo "No tokens.json found"
+          echo "📌 Latest commit that modified tokens/tokens.json:"
+          git log -1 --oneline --all -- tokens/tokens.json || echo "No tokens.json in history"
+          echo ""
+          echo "📌 All commits in this push:"
+          if [ "${{ github.event_name }}" = "push" ]; then
+            git log --oneline ${{ github.event.before }}..${{ github.event.after }} || git log --oneline -5
+          else
+            git log --oneline -5
+          fi
+          echo ""
+          echo "📝 Current tokens/tokens.json content:"
+          if [ -f tokens/tokens.json ]; then
+            cat tokens/tokens.json
+          else
+            echo "❌ tokens/tokens.json not found!"
+            exit 1
+          fi
           
       - name: Transform tokens
         run: |
