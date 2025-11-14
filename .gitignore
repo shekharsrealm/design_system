@@ -3,6 +3,6 @@ node_modules/
 .DS_Store
 *.log
 dist/
-output/
 .aws/
+# output/ - Keep output files in git so they're available after workflow runs
 

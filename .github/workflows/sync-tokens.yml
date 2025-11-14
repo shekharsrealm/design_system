@@ -40,7 +40,6 @@ jobs:
           NODE_ENV: production
 
       - name: Commit transformed files
-        if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
