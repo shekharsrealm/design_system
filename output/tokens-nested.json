@@ -1,0 +1,15 @@
+{
+  "global": {
+    "primary": "#749eee",
+    "secondary": "#66115f",
+    "heading": "30",
+    "subheading": "15",
+    "text": "12"
+  },
+  "$themes": [],
+  "$metadata": {
+    "tokenSetOrder": [
+      "global"
+    ]
+  }
+}
