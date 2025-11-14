@@ -6,28 +6,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Custom transformer to flatten token structure for S3
-StyleDictionary.registerTransform({
-  name: 'size/px',
-  type: 'value',
-  matcher: (token) => {
-    return token.attributes?.category === 'size' && token.value.toString().includes('px');
-  },
-  transform: (token) => {
-    return token.value;
-  },
-});
-
-StyleDictionary.registerTransform({
-  name: 'color/hex',
-  type: 'value',
-  matcher: (token) => {
-    return token.attributes?.category === 'color';
-  },
-  transform: (token) => {
-    return token.value;
-  },
-});
+// Custom transforms removed - Style Dictionary v3 handles Tokens Studio format natively
 
 // Custom format for S3 JSON output
 StyleDictionary.registerFormat({
@@ -73,7 +52,7 @@ async function transformTokens() {
     }
     
     // Initialize Style Dictionary
-    const sd = new StyleDictionary({
+    const sd = StyleDictionary.extend({
       source: [`${tokensDir}/**/*.json`],
       platforms: {
         json: {
