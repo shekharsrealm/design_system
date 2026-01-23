@@ -1,10 +1,11 @@
 {
   "global": {
-    "primary": "#140105",
-    "secondary": "#ec0dda",
-    "heading": "35",
-    "subheading": "20",
-    "text": "12"
+    "primary": "#bd0d0d",
+    "secondary": "#2882cc",
+    "xs": "8",
+    "s": "10",
+    "m": "12",
+    "l": "22"
   },
   "$themes": [],
   "$metadata": {
