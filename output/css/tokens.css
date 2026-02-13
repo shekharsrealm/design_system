@@ -1,13 +1,13 @@
 /**
  * Do not edit directly
- * Generated on Fri, 13 Feb 2026 04:25:13 GMT
+ * Generated on Fri, 13 Feb 2026 10:42:52 GMT
  */
 
 :root {
-  --global-primary: #ad7777;
-  --global-secondary: #96bad8;
-  --global-xs: 10;
-  --global-s: 16;
-  --global-m: 22;
-  --global-l: 30;
+  --global-primary: #bd0d0d;
+  --global-secondary: #05457a;
+  --global-xs: 8;
+  --global-s: 10;
+  --global-m: 12;
+  --global-l: 22;
 }
